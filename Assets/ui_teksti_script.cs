@@ -5,8 +5,8 @@ using UnityEngine.UI; //tarvitaan UI:n tekstiä ja nappia varten
 using MySql.Data;
 using MySql.Data.MySqlClient; //tarvittava mysql kirjasto yhteyttä varten. lisää mysql dll:t ja system data dll assetseihin ja muuta asetuksista project settings -> player ja valitse net 4x
 
-public class ui_teksti_script : MonoBehaviour {
-
+public class ui_teksti_script : MonoBehaviour 
+{
 	public Text testiTeksti; //muista lisätä ui_teksti_scriptiin teksti objekti jotta se voidaan ottaa käyttöön
 	public Text teksti2;
 	public Text teksti3;
@@ -24,9 +24,8 @@ public class ui_teksti_script : MonoBehaviour {
 
 	private DBClass testi;
 	
-	// alustaja
-	void Start () {
-		
+	void Start ()// alustaja
+	{
 		Debug.Log("Startissa");
 
         AudioSource[] audioSources = GetComponents<AudioSource>(); //lisätään audiolista objektin komponentiksi
@@ -39,12 +38,11 @@ public class ui_teksti_script : MonoBehaviour {
 		m_Play2 = false;
 		
 		foodButton.onClick.AddListener(clicked); //ruokintanappi kuuntelee clicked funktiota, eli klikatessa konnalta vähenee nälkäpisteitä
-	
 	}
 	
-	// päivittää once per frame
-	void Update () {
-	 	
+	
+	void Update () // päivittää once per frame
+	{
 		 testi.OpenConnection(); //avataan yhteys DB luokan funktiolla
 		 testi.readData(); //käytetään funktiota joka asettaa databasin arvot muuttujiksi joita pystytään lukemaan
 		 textData(); //asetetaan arvot teksti objekteihin jotta käyttäjä voi lukea arvoja ilman control panelia
@@ -57,16 +55,16 @@ public class ui_teksti_script : MonoBehaviour {
 		 testi.CloseConnection(); //suljetaan yhteys
 	}
 	
-	void textData () { //asetetaan teksti objekteille luettavat arvot
-	 
+	void textData () //asetetaan teksti objekteille luettavat arvot
+	{ 
 		 testiTeksti.text = "lämpötila: " + testi.lampoTesti; //luetaan lämpöarvo tekstin kautta
 		 teksti2.text = "kulma x: " + testi.kulmax; //kulma x
 		 teksti3.text = "kulma y: " + testi.kulmay; //kulma y
 		 teksti5.text = "nälkä: " + testi.nalkaArvo; //nälkälukema
 	}
 	
-	void clicked () { //päivitetään nälkäarvoa napin painalluksella. 500 nälkäpistettä vähenee per klikkaus
-		
+	void clicked () //päivitetään nälkäarvoa napin painalluksella. 500 nälkäpistettä vähenee per klikkaus
+	{ 
 		Debug.Log("Nappia painettu");
 		
 		testi.OpenConnection();
@@ -74,7 +72,8 @@ public class ui_teksti_script : MonoBehaviour {
 		testi.CloseConnection();
 	}
 	
-	void wrongRotation () { //asetetaan arvot kulmille jotta valitusteksti tulee esille kun konna on selällään. valitusääni alkaa jo 90 kulman kohdalla
+	void wrongRotation () //asetetaan arvot kulmille jotta valitusteksti tulee esille kun konna on selällään. valitusääni alkaa jo 90 kulman kohdalla
+	{
 			 
 	  if (float.Parse(testi.kulmax) < -130 || float.Parse(testi.kulmax) > 130 || float.Parse(testi.kulmay) < -130 || float.Parse(testi.kulmay) > 130) //jos konna on selällään
 	  {
@@ -104,8 +103,8 @@ public class ui_teksti_script : MonoBehaviour {
 	  }
 	}
 	
-	void temperature () { //lampötilan vaikutus 
-		
+	void temperature () //lampötilan vaikutus 
+	{ 
 		if(float.Parse(testi.lampoTesti) < 15 && float.Parse(testi.lampoTesti) >= 10 ) //jos lämpötilä on pienempi kuin 15 mutta suurempi tai yhtäsuuri kuin 10
 		{
 			temperatureText.enabled = true; //teksti käyttöön
@@ -146,10 +145,10 @@ public class ui_teksti_script : MonoBehaviour {
 			temperatureText.text = "Voitko viedä mut varjoon?";
 			
 			if(m_Play2 == true) //varmistetaan ettei äänite ole päällä
-            { 
-                ree2.Stop();
-                m_Play2 = false;
-            }
+		    { 
+			ree2.Stop();
+			m_Play2 = false;
+		    }
 
 		}
 		else if(float.Parse(testi.lampoTesti) > 60)
@@ -158,21 +157,20 @@ public class ui_teksti_script : MonoBehaviour {
 			temperatureText.text = "Kuollut";
 			
 			if(m_Play2 == false) //käytetään äänite 2 jos lämpötila nousee yli 60 astetta
-            {
-                ree2.Play();
-                m_Play2 = true;
-            }
+		    {
+			ree2.Play();
+			m_Play2 = true;
+		    }
 		}
 		else
 		{
 			temperatureText.enabled = false; //muussa tapauksessa otetaan teksti ja äänite pois käytöstä
 			
 			 if(m_Play2 == true)
-            {
-                ree2.Stop();
-                m_Play2 = false;
-            }
-		}
-			
+		    {
+			ree2.Stop();
+			m_Play2 = false;
+		    }
+		}	
 	}
 }
