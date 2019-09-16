@@ -31,7 +31,7 @@ public class DBClass : MonoBehaviour
             server = "mysli.oamk.fi";
             database = "opisk_t7hani00";
             uid = "t7hani00";
-            password = "NEwttgtub7h3FHYq";
+            password = "************"; //muutettu julkaisun vuoksi
             
 			string connectionString; //luodaan connectionstring yhteyttä varten. tarvitaan databasen omistajan tiedot
             
